@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Route Generator{% endblock %}
+
+{% block body %}
+{{ render_map(map, { style: 'min-height: 100vh' }) }}
+{% endblock %}
