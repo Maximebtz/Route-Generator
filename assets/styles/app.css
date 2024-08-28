@@ -11,4 +11,64 @@ body {
    font-family: 'Poppins', sans-serif;
    min-height: 100vh;
    background-color: #161515;
+   position: relative;
+}
+
+.search-content {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 1000;
+}
+
+.search-content input {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    color: #161515;
+    font-size: 16px;
+    width: 240px;
+}
+
+.map {
+    z-index: 0;
+}
+
+.start-content {
+    position: relative;
+}
+
+.end-content {
+    position: relative;
+}
+
+.suggestion-box {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1010;
+    list-style-type: none;
+    padding: 8px;
+    margin: 0;
+    box-shadow: rgba(0, 0, 0, 0.200) 0px 0px 8px;
+}
+
+.suggestion-box li {
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.suggestion-box li:hover {
+    background-color: #e0e0e0;
 }
