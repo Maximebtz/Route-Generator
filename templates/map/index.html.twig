@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Route Generator{% endblock %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+{% endblock %}
 {% block body %}
 <div class="search-content">
     <div class="start-content">
@@ -11,63 +14,14 @@
         <input type="text" id="end-location" placeholder="Arrivée">
     </div>
 </div>
-<div class="map">
-    {{ render_map(map, { style: 'min-height: 100vh' }) }}
+<div id="map" style="min-height: 100vh; width: 100vw;">
+    {# {{ render_map(map, { style: 'min-height: 100vh' }) }} #}
 </div>
-
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nominatim-js@1.0.10/lib/nominatim-js.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const startInput = document.getElementById('start-location');
-        const endInput = document.getElementById('end-location');
-
-        startInput.addEventListener('input', function() {
-            fetchAddressSuggestions(startInput);
-        });
-
-        endInput.addEventListener('input', function() {
-            fetchAddressSuggestions(endInput);
-        });
-
-        function fetchAddressSuggestions(inputElement) {
-            const query = inputElement.value;
-            if (query.length < 3) {
-                return;
-            }
-
-            fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    const suggestions = data.features.map(feature => feature.properties.label);
-
-                    console.log('Suggestions:', suggestions);
-                    showSuggestions(inputElement, suggestions);
-                })
-                .catch(error => console.error('Error fetching address suggestions:', error));
-        }
-
-        function showSuggestions(inputElement, suggestions) {
-            // Supprimez les anciennes suggestions
-            let suggestionBox = inputElement.nextElementSibling;
-            if (suggestionBox) {
-                suggestionBox.remove();
-            }
-
-            // Crée une nouvelle boîte de suggestions
-            suggestionBox = document.createElement('ul');
-            suggestionBox.classList.add('suggestion-box');
-
-            suggestions.forEach(suggestion => {
-                const item = document.createElement('li');
-                item.textContent = suggestion;
-                item.addEventListener('click', function() {
-                    inputElement.value = suggestion;
-                    suggestionBox.remove();
-                });
-                suggestionBox.appendChild(item);
-            });
-
-            inputElement.parentNode.appendChild(suggestionBox);
-        }
-    });
+    const points = {{ points|json_encode()|raw }};
 </script>
+<script src="{{asset('/js/autoFill.js')}}"></script>
 {% endblock %}
